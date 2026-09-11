@@ -53,7 +53,13 @@
     <section class="section page-grid" id="projects">
       <div class="section-no">01</div>
       <div class="section-title"><h2>Projects / 项目</h2></div>
+      <div class="view-switch" role="group" aria-label="Project view">
+        <button type="button" class="view-button is-active" data-view="list">List</button>
+        <span>/</span>
+        <button type="button" class="view-button" data-view="grid">Grid</button>
+      </div>
 
+      <div class="projects-list" data-project-view="list">
       <article class="project-row project-feature">
         <div class="project-code">P-001</div>
         <div class="project-main">
@@ -83,6 +89,28 @@
         <div class="project-desc">关于个人知识、资料与 AI 协作的持续实验。</div>
         <div class="project-state">Prototype</div>
       </article>
+      </div>
+
+      <div class="projects-grid" data-project-view="grid" hidden>
+        <article class="project-card project-card-wide">
+          <div class="eyebrow">Product System</div>
+          <h3>AI Product Operating System</h3>
+          <p>把研究、产品、内容与执行组织成一个可持续迭代的 AI 工作系统。</p>
+          <div class="project-card-foot"><span>P-001</span><span>In development ↗</span></div>
+        </article>
+        <article class="project-card">
+          <div class="eyebrow">Memory / Product</div>
+          <h3>Personal Memory Infrastructure</h3>
+          <p>探索记忆、上下文与个人 AI 基础设施之间的关系。</p>
+          <div class="project-card-foot"><span>P-002</span><span>Researching ↗</span></div>
+        </article>
+        <article class="project-card">
+          <div class="eyebrow">Tool / Workflow</div>
+          <h3>SecondBrain</h3>
+          <p>关于个人知识、资料与 AI 协作的持续实验。</p>
+          <div class="project-card-foot"><span>P-003</span><span>Prototype ↗</span></div>
+        </article>
+      </div>
     </section>
 
     <section class="section page-grid" id="research">
@@ -127,5 +155,18 @@
     <div>Beijing / 2026</div>
     <div>© PROMPTprompt</div>
   </footer>
+  <script>
+    const buttons = document.querySelectorAll('.view-button');
+    const views = document.querySelectorAll('[data-project-view]');
+    const setProjectView = (view) => {
+      views.forEach(el => el.hidden = el.dataset.projectView !== view);
+      buttons.forEach(btn => btn.classList.toggle('is-active', btn.dataset.view === view));
+      try { localStorage.setItem('promptprompt-project-view', view); } catch(e) {}
+    };
+    buttons.forEach(btn => btn.addEventListener('click', () => setProjectView(btn.dataset.view)));
+    let saved = 'list';
+    try { saved = localStorage.getItem('promptprompt-project-view') || 'list'; } catch(e) {}
+    setProjectView(saved === 'grid' ? 'grid' : 'list');
+  </script>
 </body>
 </html>
